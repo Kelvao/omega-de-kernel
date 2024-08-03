@@ -12,7 +12,6 @@ jobs:
 
     - name: Set up DevKitPro
       run: |
-        sudo apt update
         sudo apt install -y wget
         wget https://downloads.devkitpro.org/devkitpro-pacman_0.1-1_all.deb
         sudo dpkg -i devkitpro-pacman_0.1-1_all.deb
