@@ -1,9 +1,10 @@
 name: Build with Make
 
-on: workflow_run:
-  workflows: ["Setup DevKitPro"]
-  types:
-    - completed
+on:
+  workflow_run:
+    workflows: ["Setup DevKitPro"]
+    types:
+      - completed
 
 jobs:
   build:
@@ -20,4 +21,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: build-artifact
-        path: *.gba
+        path: "*.gba"

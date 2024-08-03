@@ -1,9 +1,10 @@
 name: Link to Image
 
-on: workflow_run:
-  workflows: ["Build with Make"]
-  types:
-    - completed
+on:
+  workflow_run:
+    workflows: ["Build with Make"]
+    types:
+      - completed
 
 jobs:
   run_and_upload:

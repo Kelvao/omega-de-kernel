@@ -1,9 +1,10 @@
 name: Create and Publish Release
 
-on: workflow_run:
-  workflows: ["Link to Image"]
-  types:
-    - completed
+on:
+  workflow_run:
+    workflows: ["Link to Image"]
+    types:
+      - completed
 
 jobs:
   release:
