@@ -1,4 +1,4 @@
-name: Run Executable and Upload Artifacts
+name: Link to Image
 
 on: workflow_run:
   workflows: ["Build with Make"]
