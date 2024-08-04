@@ -1,6 +1,6 @@
 #EZ-FLASH  Omega Definitive Edition Kernel
 
-## Versions
+## Devkit Versions
 
 - devkitARM: 1.5.1-1-any
 - libGBA: 0.5.4-1-any
