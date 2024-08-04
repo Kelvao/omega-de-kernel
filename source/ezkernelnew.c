@@ -1309,7 +1309,7 @@ void CheckLanguage(void)
 	{
 		LoadEnglish();
 	}
-	else//жпнд
+	else//О©╫О©╫О©╫О©╫
 	{
 		LoadChinese();
 	}
@@ -2322,7 +2322,7 @@ re_showfile:
 		      if( show_offset+file_select <  folder_total)
 		      {	   				
 	   				if(strcmp(currentpath,"/") !=0){	
-	   					sprintf(currentpath,"%s%s",currentpath,"/");
+	   					snprintf(currentpath,"%s%s",currentpath,"/");
 						}
 		      	sprintf(currentpath,"%s%s",currentpath,pFolder[show_offset+file_select].filename);
 		      	
