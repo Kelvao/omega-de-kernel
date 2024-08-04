@@ -27,8 +27,9 @@ jobs:
         run: |
           echo "DEVKITPRO=/opt/devkitpro" >> $GITHUB_ENV
           echo "DEVKITARM=/opt/devkitpro/devkitARM" >> $GITHUB_ENV
-          echo "::set-output name=devkitpro::/opt/devkitpro"
-          echo "::set-output name=devkitarm::/opt/devkitpro/devkitARM"
+          echo "devkitpro=/opt/devkitpro" >> $GITHUB_ENV
+          echo "devkitarm=/opt/devkitpro/devkitARM" >> $GITHUB_ENV
+        shell: bash
 
   build:
     runs-on: ubuntu-latest
