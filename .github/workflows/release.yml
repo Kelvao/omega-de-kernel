@@ -1,40 +1,90 @@
-name: Create and Publish Release
-
+name: Release
 on:
-  workflow_run:
-    workflows: ["Link to Image"]
-    types:
-      - completed
+  push:
+    branches:
+      - main
 
 jobs:
+  setup-devkitpro:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Set up DevKitPro
+        run: |
+          sudo apt update
+          sudo apt install -y wget
+          sudo wget -O /usr/local/bin/pacman https://github.com/icy/pacapt/raw/ng/pacapt
+          sudo chmod 755 /usr/local/bin/pacman
+          wget https://apt.devkitpro.org/install-devkitpro-pacman
+          chmod +x ./install-devkitpro-pacman
+          sudo ./install-devkitpro-pacman
+      - name: Export environment variables
+        run: |
+          echo "DEVKITPRO=/opt/devkitpro" >> $GITHUB_ENV
+          echo "DEVKITARM=/opt/devkitpro/devkitARM" >> $GITHUB_ENV
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Build with Make
+        run: make
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-artifact
+          path: '*.gba'
+
+  link-to-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Set up Wine
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo mkdir -pm755 /etc/apt/keyrings
+          wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
+          sudo wget -NP /etc/apt/sources.list.d https://dl.winehq.org/wine-builds/ubuntu/dists/bionic/winehq-bionic.sources
+          sudo apt update
+          sudo apt install --install-recommends winehq-stable
+      - name: Download build artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: build-artifact
+      - name: Run the executable
+        run: wine ./link_to_image.exe
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: run-artifact
+          path: ezkernelnew.bin
+
   release:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
-    - name: Download artifacts
-      uses: actions/download-artifact@v2
-      with:
-        name: run-artifact
-
-    - name: Create GitHub Release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        draft: false
-        prerelease: false
-        body: |
-          Release notes for ${{ github.ref }}.
-
-    - name: Upload release asset
-      uses: actions/upload-release-asset@v1
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ezkernelnew.bin
-        asset_name: ezkernelnew.bin
-        asset_content_type: application/octet-stream
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: run-artifact
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          body: 'Release notes for ${{ github.ref }}.'
+          draft: false
+          prerelease: false
+          release_name: Release ${{ github.ref }}
+          tag_name: ${{ github.ref }}
+      - name: Upload release asset
+        uses: actions/upload-release-asset@v1
+        with:
+          asset_content_type: application/octet-stream
+          asset_name: ezkernelnew.bin
+          asset_path: ezkernelnew.bin
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
