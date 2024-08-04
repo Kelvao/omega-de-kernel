@@ -1,0 +1,39 @@
+[2021-06-04T22:59:44+0100] [PACMAN] Running '/opt/devkitpro/pacman/bin/pacman -U --noconfirm --arch i686 --root /home/davem/projects/devkitpro/deb-packages/devkitpro-pacman.i686 devkitpro-keyring-20180316-1-any.pkg.tar.xz'
+[2021-06-04T22:59:44+0100] [ALPM] transaction started
+[2021-06-04T22:59:44+0100] [ALPM] installed devkitpro-keyring (20180316-1)
+[2021-06-04T22:59:44+0100] [ALPM-SCRIPTLET] call to execv failed (No such file or directory)
+[2021-06-04T22:59:44+0100] [ALPM] transaction completed
+[2021-06-04T23:01:28+0100] [PACMAN] Running '/opt/devkitpro/pacman/bin/pacman -U --noconfirm --arch i686 --root /home/davem/projects/devkitpro/deb-packages/devkitpro-pacman.i686 pacman-5.2.2-5-i686.pkg.tar.xz'
+[2021-06-04T23:01:28+0100] [ALPM] transaction started
+[2021-06-04T23:01:28+0100] [ALPM] installed pacman (5.2.2-5)
+[2021-06-04T23:01:28+0100] [ALPM] transaction completed
+[2022-02-10T02:26:58+0000] [PACMAN] Running '/opt/devkitpro/pacman/bin/pacman -r devkitpro-pacman_6.0.1-1_amd64/ --noscriptlet --arch x86_64 --config ./pacman.conf -U /home/davem/packages/dkp-linux/x86_64/pacman-6.0.1-7-x86_64.pkg.tar.xz'
+[2022-02-10T02:27:08+0000] [ALPM] transaction started
+[2022-02-10T02:27:09+0000] [ALPM] upgraded pacman (5.2.2-5 -> 6.0.1-7)
+[2022-02-10T02:27:09+0000] [ALPM] transaction completed
+[2022-02-10T02:27:29+0000] [PACMAN] Running '/opt/devkitpro/pacman/bin/pacman -r devkitpro-pacman_6.0.1-1_amd64/ --noscriptlet --arch x86_64 --config ./pacman.conf -Syy'
+[2022-02-10T02:27:29+0000] [PACMAN] synchronizing package lists
+[2022-02-11T13:53:06+0000] [PACMAN] Running '/opt/devkitpro/pacman/bin/pacman -r devkitpro-pacman_6.0.1-2_amd64 --noscriptlet --arch x86_64 --config ./pacman.conf -Sy pacman'
+[2022-02-11T13:53:06+0000] [PACMAN] synchronizing package lists
+[2022-02-11T13:53:16+0000] [ALPM] transaction started
+[2022-02-11T13:53:17+0000] [ALPM] reinstalled pacman (6.0.1-7)
+[2022-02-11T13:53:17+0000] [ALPM] transaction completed
+[2024-08-03T23:45:55-0300] [PACMAN] Running '/opt/devkitpro/pacman/bin/pacman -Syy'
+[2024-08-03T23:45:55-0300] [PACMAN] synchronizing package lists
+[2024-08-03T23:48:51-0300] [PACMAN] Running '/opt/devkitpro/pacman/bin/pacman -S devkitpro'
+[2024-08-03T23:48:58-0300] [PACMAN] Running '/opt/devkitpro/pacman/bin/pacman -S devkitARM'
+[2024-08-03T23:49:09-0300] [ALPM] transaction started
+[2024-08-03T23:49:09-0300] [ALPM] installed general-tools (1.4.4-1)
+[2024-08-03T23:49:09-0300] [ALPM] installed devkitarm-rules (1.5.1-1)
+[2024-08-03T23:49:09-0300] [ALPM] installed devkitarm-crtls (1.2.6-1)
+[2024-08-03T23:49:10-0300] [ALPM] installed devkitARM (r64-2)
+[2024-08-03T23:49:10-0300] [ALPM] transaction completed
+[2024-08-04T00:08:33-0300] [PACMAN] Running '/opt/devkitpro/pacman/bin/pacman -S devkitpro'
+[2024-08-04T00:09:03-0300] [PACMAN] Running '/opt/devkitpro/pacman/bin/pacman -S libgba'
+[2024-08-04T00:09:07-0300] [ALPM] transaction started
+[2024-08-04T00:09:07-0300] [ALPM] installed libgba (0.5.4-1)
+[2024-08-04T00:09:07-0300] [ALPM] transaction completed
+[2024-08-04T00:09:22-0300] [PACMAN] Running '/opt/devkitpro/pacman/bin/pacman -S devkitpro'
+[2024-08-04T00:09:26-0300] [PACMAN] Running '/opt/devkitpro/pacman/bin/pacman -S DEVKITPRO'
+[2024-08-04T00:10:30-0300] [PACMAN] Running '/opt/devkitpro/pacman/bin/pacman -S devkitPro'
+[2024-08-04T00:10:32-0300] [PACMAN] Running '/opt/devkitpro/pacman/bin/pacman -S devkit'
