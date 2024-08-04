@@ -17,11 +17,9 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y wget
-          sudo wget -O /usr/local/bin/pacman https://github.com/icy/pacapt/raw/ng/pacapt
-          sudo chmod 755 /usr/local/bin/pacman
           wget https://apt.devkitpro.org/install-devkitpro-pacman
           chmod +x ./install-devkitpro-pacman
-          sudo ./install-devkitpro-pacman
+          sudo ./install-devkitpro-pacman -y
       - name: Export environment variables
         id: export-env
         run: |
