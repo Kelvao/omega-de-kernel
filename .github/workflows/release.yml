@@ -17,6 +17,12 @@ jobs:
       - name: Set execute permissions
         run: chmod -R +x ${{ github.workspace }}/devkitpro
           
+      - name: Install ARM GCC
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-arm-none-eabi
+          sudo dkp-pacman -S gba-dev
+
       - name: Build with Make
         run: make
         working-directory: ${{ github.workspace }}
