@@ -2322,7 +2322,7 @@ re_showfile:
 		      if( show_offset+file_select <  folder_total)
 		      {	   				
 	   				if(strcmp(currentpath,"/") !=0){	
-	   					snprintf(currentpath,"%s%s",currentpath,"/");
+	   					sprintf(currentpath,"%s%s",currentpath,"/");
 						}
 		      	sprintf(currentpath,"%s%s",currentpath,pFolder[show_offset+file_select].filename);
 		      	
