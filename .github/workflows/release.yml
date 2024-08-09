@@ -1,93 +1,48 @@
 name: Release
 on:
-  push:
+  pull_request:
     branches:
-      - main
+      - develop
 
 jobs:
-  setup-devkitpro:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      - name: Set up DevKitPro
-        run: |
-          sudo apt update
-          sudo apt install -y wget
-          sudo wget -O /usr/local/bin/pacman https://github.com/icy/pacapt/raw/ng/pacapt
-          sudo chmod 755 /usr/local/bin/pacman
-          wget https://apt.devkitpro.org/install-devkitpro-pacman
-          chmod +x ./install-devkitpro-pacman
-          sudo ./install-devkitpro-pacman
-      - name: Export environment variables
-        run: |
-          echo "DEVKITPRO=/opt/devkitpro" >> $GITHUB_ENV
-          echo "DEVKITARM=/opt/devkitpro/devkitARM" >> $GITHUB_ENV
-
   build:
+    name: Build
     runs-on: ubuntu-latest
-    needs: setup-devkitpro
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
-      - name: Build with Make
-        run: make
+        uses: actions/checkout@v4
+
+      - name: Pull Docker image
+        run: docker pull devkitpro/devkitarm
+
+      - name: Build project with Make inside the Docker image
+        run: |
+          docker run --rm -v ${{ github.workspace }}:/ezkernelnew -w /ezkernelnew devkitpro/devkitarm:latest make
+
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
-          name: build-artifact
-          path: '*.gba'
+          name: generated-gba-artifact
+          path: ezkernelnew.gba     
 
   link-to-image:
-    runs-on: ubuntu-latest
+    name: Link .gba file to kernel image
+    runs-on: windows-latest
     needs: build
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
-      - name: Set up Wine
-        run: |
-          sudo dpkg --add-architecture i386
-          sudo mkdir -pm755 /etc/apt/keyrings
-          wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
-          sudo wget -NP /etc/apt/sources.list.d https://dl.winehq.org/wine-builds/ubuntu/dists/bionic/winehq-bionic.sources
-          sudo apt update
-          sudo apt install --install-recommends winehq-stable
+        uses: actions/checkout@v4
+      
       - name: Download build artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
+        with:
+          name: generated-gba-artifact
+      
+      - name: Link .gba file to kernel image
+        run: ./link_to_image.exe
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
         with:
           name: build-artifact
-      - name: Run the executable
-        run: wine ./link_to_image.exe
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: run-artifact
           path: ezkernelnew.bin
-
-  release:
-    runs-on: ubuntu-latest
-    needs: link-to-image
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      - name: Download artifacts
-        uses: actions/download-artifact@v2
-        with:
-          name: run-artifact
-      - name: Create GitHub Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          body: 'Release notes for ${{ github.ref }}.'
-          draft: false
-          prerelease: false
-          release_name: Release ${{ github.ref }}
-          tag_name: ${{ github.ref }}
-      - name: Upload release asset
-        uses: actions/upload-release-asset@v1
-        with:
-          asset_content_type: application/octet-stream
-          asset_name: ezkernelnew.bin
-          asset_path: ezkernelnew.bin
-          upload_url: ${{ steps.create_release.outputs.upload_url }}

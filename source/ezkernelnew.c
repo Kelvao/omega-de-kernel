@@ -1309,7 +1309,7 @@ void CheckLanguage(void)
 	{
 		LoadEnglish();
 	}
-	else//жпнд
+	else//О©╫О©╫О©╫О©╫
 	{
 		LoadChinese();
 	}
